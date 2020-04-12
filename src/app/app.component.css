@@ -13,3 +13,45 @@ table {
   }
   
   tr:nth-child(even){background-color: #f2f2f2}
+
+  input[type=text] {
+    width: 130px;
+    -webkit-transition: width 0.4s ease-in-out;
+    transition: width 0.4s ease-in-out;
+    height: 22px;
+  }
+  
+  /* When the input field gets focus, change its width to 100% */
+  input[type=text]:focus {
+    width: 85%;
+    height: 22px;
+
+  }
+
+  .box{
+    box-shadow: bisque;
+    border-radius: 5px;
+    border: 1px black ;
+  }
+
+  .h4{
+    margin: 0px;
+    padding: 0px;
+  }
+
+  .heading{
+    font-weight: bold;
+    margin: 0px;
+    margin-bottom: 2px;
+  }
+
+  ol{
+margin: 0px;
+margin-top: 5px;
+margin-bottom: 5px;
+  }
+
+  .langbtn{
+    margin-left: 3px;
+    margin-right: 3px;
+  }

@@ -1,47 +1,86 @@
- 
- <div>
-   <p>Last Updated At : <span style="font-family: cursive;">{{h | date:'medium'}}</span> </p>
-   <p>Coronavirus Cases : <span style="font-family: cursive;">{{worldwide?.confirmed}}</span></p>
-   <p>Recovered : <span style="font-family: cursive;">{{worldwide?.recovered}}</span></p>
-   <p>Deaths : <span style="font-family: cursive;">{{worldwide?.deaths}}</span></p>
+<div style="display: flex;justify-content: center;">
+<button class="langbtn" (click)="languageChanges('hindi')">हिन्दी</button>
+<button class="langbtn" (click)="languageChanges('english')">English</button>
+</div> 
+
+
+<div class='box'>
+  <p>{{titles?.website?.name}} {{loadingTime ? ' ' +loadingTime + ' second':'1 second'}}</p>
+   <p>{{titles?.last?.name}} <span style="font-family: cursive;">{{h | date:'medium'}}</span> </p>
+   <p>{{titles?.cases?.name}} <span style="font-family: cursive;">{{worldwide?.confirmed}}</span></p>
+   <p>{{titles?.deaths?.name}}<span style="font-family: cursive;color: red;cursor: pointer;">{{worldwide?.deaths}}</span></p>
+   <p>{{titles?.recoverd?.name}} <span style="font-family: cursive;color: green;cursor: pointer;">{{worldwide?.recovered}}</span></p>
  </div>
  
- 
+ <div>
+   <p class="heading" (click)="isSymptoms=!isSymptoms"> {{titles?.symptom?.name}} 
+     <span *ngIf='!isSymptoms'>({{titles?.open?.name}} )</span>
+    <span *ngIf='isSymptoms'>({{titles?.close?.name}} )</span></p>
+   <ng-container *ngIf='isSymptoms'>
+    <p class="heading">{{titles?.may?.name}}</p>
+    <ol>
+      <li *ngFor='let item of symptomData'>{{item}}</li>
+    </ol>  
+   </ng-container>
+
+   <ng-container>
+   <p class="heading" (click)='isAdvice=!isAdvice'> {{titles?.advice?.name}}  
+     <span *ngIf='!isAdvice'>({{titles?.open?.name}}  )</span>
+     <span *ngIf='isAdvice'>({{titles?.close?.name}}  )</span></p>
+    <ol *ngIf='isAdvice'>
+      <li *ngFor='let item of advice'>{{item}}</li>
+    </ol>  
+   </ng-container>
+ </div>
+
  <div style="overflow-x:auto;">
-    <table>
+  <input type="text"  placeholder="Search.." style="margin-bottom: 2px;" (keyup)='search(key)' [(ngModel)]='key' name='key'>
+  <button (click)='(key = "");search()' type="button" style="height: 29px;margin-left: 5px;">Clear</button>
+  
+    <table *ngIf='filterData?.length'>
       <tr>
+        <th>Day Wise</th>
         <th>Country</th>
         <th>Confirmed</th>
         <th>Deaths</th>
         <th>Recovered</th>
-        <th>Day Wise</th>
       </tr>
-      <tr *ngFor='let item of list | filter'>
-        <td #id+i (click)="ngxSmartModalService.getModal('myModal').open()">{{item?.countryregion}}</td>
-        <td (click)='close()'>{{item?.confirmed}}</td>
-        <td style="color: red;">{{item?.deaths}}</td>
-        <td style="color: green;">{{item?.recovered}}</td>
+      <tr *ngFor='let item of filterData | filter'>
         <td (click)='time(item?.countrycode?.iso2)' style="color: blue;cursor: pointer;">Check</td>
+        <td (click)='time(item?.countrycode?.iso2)' style="cursor: pointer;">{{item?.countryregion}}</td>
+        <td (click)='time(item?.countrycode?.iso2)' style="cursor: pointer;">{{item?.confirmed}}</td>
+        <td (click)='time(item?.countrycode?.iso2)' style="color: white;cursor: pointer;background-color: red;">{{item?.deaths}}</td>
+        <td (click)='time(item?.countrycode?.iso2)' style="color: white;cursor: pointer;background-color: green;">{{item?.recovered}}</td>
       </tr>   
     </table>
   </div>
 
   <ngx-smart-modal #myModal identifier="myModal">
-    <div *ngIf='timeSeries?.length' >
+    <div *ngIf='latest?.length' >
       <h2 style="align-content: center;">{{timeSeries[0]?.countryregion}}</h2>
-    <table style="background-color: burlywood;">
+    <table >
       <tr>
         <th>Date</th>
         <th>Confirmed</th>
         <th>Deaths</th>
         <th>Recovered</th>
       </tr>
-      <ng-container *ngFor='let data of timeSeries[0]?.timeseries | keyvalue | emptyObjectRemoval' >
-        <tr *ngIf='data?.key' >
+      <!-- <ng-container *ngFor='let data of latest | keyvalue' >
+        {{timeSeries[0]?.timeseries | json}}
+        <tr *ngIf='timeSeries[0]?.timeseries[data?.key]?.confirmed || timeSeries[0]?.timeseries[data?.key]?.deaths || timeSeries[0]?.timeseries[data?.key]?.recovered' >
           <td >{{data?.key}}</td>
           <td >{{timeSeries[0]?.timeseries[data?.key]?.confirmed}}</td>
           <td style="color: red;">{{timeSeries[0]?.timeseries[data?.key]?.deaths}}</td>
           <td style="color: green;">{{timeSeries[0]?.timeseries[data?.key]?.recovered}}</td>
+        </tr>
+      </ng-container> -->
+      
+      <ng-container *ngFor='let data of latest | emptyObjectRemoval' >
+        <tr>
+          <td >{{data?.key}}</td>
+          <td >{{data?.confirmed}}</td>
+          <td style="color: red;">{{data?.deaths}}</td>
+          <td style="color: green;">{{data?.recovered}}</td>
         </tr>
       </ng-container>
     </table>
