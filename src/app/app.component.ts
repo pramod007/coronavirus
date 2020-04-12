@@ -10,7 +10,7 @@ import { NgxSmartModalService } from 'ngx-smart-modal';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
-  title = 'dash';
+  title = 'Corona';
   h=new Date();
 
   worldwide:any
