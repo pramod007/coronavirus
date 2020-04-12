@@ -14,7 +14,7 @@ delete value[key]
       }else{
         console.log(a++)
         let date:any = value[key].key.split('/')
-        value[key].key=date[1]+'/'+date[0]+'/'+date[2]
+        // value[key].key=date[1]+'/'+date[0]+'/'+date[2]
       }
     })
     console.log(value.length)

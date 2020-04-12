@@ -1,4 +1,13 @@
-  <div style="overflow-x:auto;">
+ 
+ <div>
+   <p>Last Updated At : <span style="font-family: cursive;">{{h | date:'medium'}}</span> </p>
+   <p>Coronavirus Cases : <span style="font-family: cursive;">{{worldwide?.confirmed}}</span></p>
+   <p>Recovered : <span style="font-family: cursive;">{{worldwide?.recovered}}</span></p>
+   <p>Deaths : <span style="font-family: cursive;">{{worldwide?.deaths}}</span></p>
+ </div>
+ 
+ 
+ <div style="overflow-x:auto;">
     <table>
       <tr>
         <th>Country</th>
