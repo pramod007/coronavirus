@@ -51,6 +51,7 @@ this.http.get('https://wuhan-coronavirus-api.laeyoung.endpoint.ainize.ai/jhu-edu
 
   latest:any=[]
   time(iso2,id?){
+    this.latest=[]
     this.http.get('https://wuhan-coronavirus-api.laeyoung.endpoint.ainize.ai/jhu-edu/timeseries?iso2='+iso2).toPromise().then((data:any) => {
   this.timeSeries=data;
   let length =data[0].timeseries.length-1;
